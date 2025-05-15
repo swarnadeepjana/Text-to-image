@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 device = "cuda" if torch.cuda.is_available() else "cpu"
 prompt = "Sunset in Japan, digital art"
 
+
 model_list = {
     "Stable Diffusion v1.4": "CompVis/stable-diffusion-v1-4",
     "Stable Diffusion v1.5": "runwayml/stable-diffusion-v1-5",
@@ -21,7 +22,9 @@ model_list = {
     "Dreamlike Photoreal 2.0": "dreamlike-art/dreamlike-photoreal-2.0"
 }
 
+
 fig, axs = plt.subplots(1, len(model_list), figsize=(18, 6))
+
 
 for i, (name, model_id) in enumerate(model_list.items()):
     print(f"Loading model: {name}")
@@ -31,14 +34,14 @@ for i, (name, model_id) in enumerate(model_list.items()):
         torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32
     ).to(device)
 
+    
     pipe.safety_checker = None
-
     image = pipe(prompt, num_inference_steps=30).images[0]
 
+    
     axs[i].imshow(image)
     axs[i].axis("off")
     axs[i].set_title(name)
-
 plt.suptitle(f"Prompt: '{prompt}'", fontsize=16)
 plt.tight_layout()
 plt.show()
